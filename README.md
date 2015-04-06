@@ -11,7 +11,11 @@ Translations in Django are full of thorns:
 * If you use plural forms, there is a lot of redundant code to write:
 
   ```
-  {% blocktrans %}I have one apple{% plural %}I have {{ count }} apples{% endblocktrans %}
+  {% blocktrans %}
+    I have one apple
+  {% plural %}
+    I have {{ count }} apples
+  {% endblocktrans %}
   ```
 
 * You cannot customize much
@@ -36,13 +40,17 @@ Translations in Django are full of thorns:
 # Installation
 
 1. Install the package: `pip install django_translate`
-1. Modify MIDDLEWARE_CLASSES as such:
+1. Add `django_translate` to `INSTALLED_APPS`
+1. Modify `MIDDLEWARE_CLASSES` as such:
 
 ```python
 MIDDLEWARE_CLASSES = (
     # ... your other middlewares
-    "django.middleware.locale.LocaleMiddleware", # required
-    "django_translate.middleware.LocaleMiddleware", # add this one __after__ the one above
+    # required:
+    "django.middleware.locale.LocaleMiddleware",
+
+    # add this one __after__ the one above:
+    "django_translate.middleware.LocaleMiddleware",
     # ... your other middlewares
 )
 ```
@@ -54,10 +62,17 @@ Done!
 1. Create a file `tranz/messages.en.yml` in your django app directory:
 
 ```yml
-    "hello_world": "Hello world!"
+# tranz/messages.en.yml
+"hello_world": "Hello world!"
 ```
 
-1. In any template add `{% use tranz %}` and `{% tranz "hello_world" into "en" %}`
+1. Create a view/template pair and use the following code as template.html:
+
+```
+{% use tranz %}
+{% tranz "hello_world" into "en" %}
+```
+
 1. Run dev server and visit a view that renders this template
 
 Ta-da! It works, and you didn'teven  have to compile anything!
@@ -67,9 +82,11 @@ Ta-da! It works, and you didn'teven  have to compile anything!
 Below you will find short and sweet documentation
 
 If it leaves you with any questions, make sure to read `python_translate` docs:
+
 https://python-translate.readthedocs.org/
 
 A few paragraphs of the following README are derived from Symfony2 documentation:
+
 https://github.com/symfony/symfony-docs/
 
 This README is licensed under [CC BY-SA 3.0](http://creativecommons.org/licenses/by-sa/3.0/) while the code is licensed under MIT license (in LICENSE file)
@@ -82,17 +99,12 @@ be organized further into “domains”. The default domain is messages.
 For example, suppose that, for organization, translations were split into three different domains: messages, admin
 and navigation. The French translation would be loaded from the following files:
 
-* `APP_PATH/tranz/messages.fr.yml`
-
-```yml
-      "Create new blog post": "Créer un nouveau blog"
 ```
-
-* APP_PATH/tranz/admin.fr.yml
-* APP_PATH/tranz/navigation.fr.yml
-
-```yml
-      "Go to homepage": "La page d'accueil"
+* APP_PATH/tranz/messages.fr.yml:
+    "Create new blog post": "Créer un nouveau blog"
+* APP_PATH/tranz/admin.fr.yml`
+* APP_PATH/tranz/navigation.fr.yml:
+    "Go to homepage": "La page d'accueil"
 ```
 
 When translating strings that are not in the default domain (messages), you must specify the domain as the third
@@ -147,16 +159,16 @@ https://python-translate.readthedocs.org/
 In order to translate messages in your views.py file, you need to use `trans` function provided by this app:
 
 ```python
-    from django_translate.services import tranz
+from django_translate.services import tranz
 
-    def my_view(request):
-        return trans("hello_world") # returns Hello world!
+def my_view(request):
+    return trans("hello_world") # returns Hello world!
 ```
 
 `tranz` function takes a few arguments:
 ```python
-    def trans(id, parameters=None, domain=None, locale=None):
-        # ...
+def trans(id, parameters=None, domain=None, locale=None):
+    # ...
 ```
 
 Note that it's simply a reference to `Translator.trans` from [python_translate](https://github.com/adamziel/python_translate)
@@ -182,12 +194,13 @@ tranz('hello', {"Name": "Adam"})
 ```
 
 For more details about formatting, check python_translate documentation:
+
 https://python-translate.readthedocs.org/en/latest/usage.html#message-placeholders
 
 
 # Pluralization
 
-When a translation has different forms due to pluralization, you can provide all the forms as a string separated by a pipe (|):
+When a translation has different forms due to pluralization, you can provide all the forms as a string separated by a pipe (`|`):
 
 ```yml
 # APP_PATH/tranz/messages.en.yml
@@ -211,6 +224,7 @@ Based on the given number, the translator chooses the right plural form for give
 number of plural forms.
 
 For more details about pluralization, check python_translate documentation:
+
 https://python-translate.readthedocs.org/en/latest/usage.html#pluralization
 
 
@@ -233,13 +247,24 @@ posts_count_name: "{name} has one post|{name} has {count} posts"
 # template.html:
 {% use tranz %}
 {% tranz "hell_world" %}
-{% tranz "hell_world" into "en" %} <!-- Specify language -->
-{% tranz "hell_world" from "messages" %} <!-- Specify domain -->
-{% tranz "hi_name" name="adam" %} <!-- Format message -->
-{% tranz "hi_name" name="adam" from "messages" into "en" %} <!-- Everything together -->
 
-{% tranzchoice "posts_count" 10 %} <!-- Pluralization -->
-{% tranzchoice "posts_count" 10 name="adam" from "messages" into "en" %} <!-- Pluralization + everything else -->
+<!-- Specify language -->
+{% tranz "hell_world" into "en" %} 
+
+<!-- Specify domain -->
+{% tranz "hell_world" from "messages" %}
+
+<!-- Format message -->
+{% tranz "hi_name" name="adam" %}
+
+<!-- Everything together -->
+{% tranz "hi_name" name="adam" from "messages" into "en" %}
+
+<!-- Pluralization -->
+{% tranzchoice "posts_count" 10 %}
+
+<!-- Pluralization + everything else -->
+{% tranzchoice "posts_count" 10 name="adam" from "messages" into "en" %}
 ```
 
 
@@ -297,19 +322,19 @@ Translator type used to create `Translator` instance
 
 **Default:** `python_translate.translations.Translator`
 
-## TRANZ_SEARCH_LOCALE_IN_APPS = _d('TRANZ_SEARCH_LOCALE_IN_APPS', lambda: True)
+## TRANZ_SEARCH_LOCALE_IN_APPS
 Should this app look for translation files in every app from `INSTALLED_APPS`?
 
 **Default:** `True`
 
-## TRANZ_DIR_NAME = _d('TRANZ_DIR_NAME', lambda: 'tranz')
+## TRANZ_DIR_NAME
 If `TRANZ_SEARCH_LOCALE_IN_APPS` is set to `True`, `django_translate` will look for translation files in
 `APP_DIRECTORY + "/" + TRANZ_DIR_NAME` of every installed application.
 
 **Default:** `"tranz"`
 
 
-## TRANZ_LOCALE_PATHS = _d('TRANZ_LOCALE_PATHS', lambda: [])
+## TRANZ_LOCALE_PATHS
 Additional paths to look for translation files in.
 
 **Default:** `[]`
