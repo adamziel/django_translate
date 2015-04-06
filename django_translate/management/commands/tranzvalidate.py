@@ -98,7 +98,7 @@ class Command(BaseCommand):
             root_path = os.path.abspath(options['path'])
             current_name = root_path.split("/")[-1]
 
-        tranz_dir = options.get('tranz_dir', os.path.join(root_path, 'tranz'))
+        tranz_dir = options.get('tranz_dir') or os.path.join(root_path, 'tranz')
 
         print 'Generating "{0}" translation files for "{1}"'.format(options.get('locale'), current_name)
 

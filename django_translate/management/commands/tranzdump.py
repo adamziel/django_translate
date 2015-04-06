@@ -116,7 +116,7 @@ class Command(BaseCommand):
             root_path = os.path.abspath(options['path'])
             current_name = root_path.split("/")[-1]
 
-        output_dir = options.get('output_dir', os.path.join(root_path, 'tranz'))
+        output_dir = options.get('output_dir') or os.path.join(root_path, 'tranz')
         writer = services.writer
 
         print 'Generating "{0}" translation files for "{1}"'.format(options.get('locale'), current_name)
