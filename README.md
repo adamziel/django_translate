@@ -230,8 +230,8 @@ https://python-translate.readthedocs.org/en/latest/usage.html#pluralization
 
 ## Translating templates:
 
-Two templatetags are provided `tranz` and `tranzchoice. They are a simple wrappers for functions with the same name
-from the `django_translate.services` module.
+`django_translate` provides two templatetags: `tranz` and `tranzchoice`. They are a simple wrappers for functions with the same name
+from `django_translate.services` module.
 
 Example:
 
