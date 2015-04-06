@@ -81,14 +81,11 @@ Ta-da! It works, and you didn'teven  have to compile anything!
 
 Below you will find short and sweet documentation
 
-If it leaves you with any questions, make sure to read `python_translate` docs:
-
+If it leaves you with any questions, make sure to read `python_translate` docs:  
 https://python-translate.readthedocs.org/
 
-A few paragraphs of the following README are derived from Symfony2 documentation:
-
-https://github.com/symfony/symfony-docs/
-
+A few paragraphs of the following README are derived from Symfony2 documentation:  
+https://github.com/symfony/symfony-docs/  
 This README is licensed under [CC BY-SA 3.0](http://creativecommons.org/licenses/by-sa/3.0/) while the code is licensed under MIT license (in LICENSE file)
 
 # Domains
@@ -193,8 +190,7 @@ from django_translate.translations import tranz
 tranz('hello', {"Name": "Adam"})
 ```
 
-For more details about formatting, check `python_translate` documentation:
-
+For more details about formatting, check `python_translate` documentation:  
 https://python-translate.readthedocs.org/en/latest/usage.html#message-placeholders
 
 
@@ -224,7 +220,6 @@ Based on the given number, the translator chooses the right plural form for give
 number of plural forms.
 
 For more details about pluralization, check `python_translate` documentation:  
-
 https://python-translate.readthedocs.org/en/latest/usage.html#pluralization
 
 
