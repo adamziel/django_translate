@@ -33,7 +33,7 @@ Translations in Django are full of thorns:
 * Console command to validate all translations in your project or collect translation strings.
 * Simple pluralization:
   ```
-  {% tranzchoice "i_have_apples" 44 %}
+  {% tranzchoice "i_have_apples" number 44 %}
   ```
 * Customize easily
 
@@ -207,10 +207,8 @@ To translate pluralized messages, use the `tranzchoice` function:
 
 ```python
 # views.py
-translator.transchoice(
-    'There is one apple|There are {count} apples',
-    10
-)
+from django_translate.translations import tranzchoice
+tranzchoice('There is one apple|There are {count} apples', 10)
 ```
 
 The second argument (10 in this example) is the number of objects being described and is used to determine which translation
@@ -241,13 +239,13 @@ posts_count_name: "{name} has one post|{name} has {count} posts"
 ```
 # template.html:
 {% use tranz %}
-{% tranz "hell_world" %}
+{% tranz "hello_world" %}
 
 <!-- Specify language -->
-{% tranz "hell_world" into "en" %} 
+{% tranz "hello_world" into "en" %} 
 
 <!-- Specify domain -->
-{% tranz "hell_world" from "messages" %}
+{% tranz "hello_world" from "messages" %}
 
 <!-- Format message -->
 {% tranz "hi_name" name="adam" %}
@@ -256,10 +254,10 @@ posts_count_name: "{name} has one post|{name} has {count} posts"
 {% tranz "hi_name" name="adam" from "messages" into "en" %}
 
 <!-- Pluralization -->
-{% tranzchoice "posts_count" 10 %}
+{% tranzchoice "posts_count" number 10 %}
 
 <!-- Pluralization + everything else -->
-{% tranzchoice "posts_count" 10 name="adam" from "messages" into "en" %}
+{% tranzchoice "posts_count" number 10 name="adam" from "messages" into "en" %}
 ```
 
 
