@@ -193,7 +193,7 @@ from django_translate.translations import tranz
 tranz('hello', {"Name": "Adam"})
 ```
 
-For more details about formatting, check python_translate documentation:
+For more details about formatting, check `python_translate` documentation:
 
 https://python-translate.readthedocs.org/en/latest/usage.html#message-placeholders
 
@@ -223,7 +223,7 @@ to use and also to populate the {count} placeholder.
 Based on the given number, the translator chooses the right plural form for given locale. Different languages have a different
 number of plural forms.
 
-For more details about pluralization, check python_translate documentation:
+For more details about pluralization, check `python_translate` documentation:  
 
 https://python-translate.readthedocs.org/en/latest/usage.html#pluralization
 
