@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import os
 from django.conf import settings
 import python_translate.extractors as extractors

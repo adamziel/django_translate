@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
 Do not import before django is initialized or you will run into
 circular imports
