@@ -1,4 +1,4 @@
-# django_translate
+django_translate
 
 Translations for Django that requires no gettext.
 
@@ -24,7 +24,7 @@ Translations in Django are full of thorns:
 
 # Enter django_translate
 
-* It's a wrapper over extensible [python_translate](https://python-translate.readthedocs.org/en/latest/usage.html#pluralization)
+* It's a wrapper over extensible [python_translate](https://github.com/adamziel/python_translate)
 * No gettext dependency
 * Use any file format you want to
     * json, yml, po, and mo supported
@@ -149,7 +149,6 @@ blog.post.create: "Create a new post"
 
 because the first one is flattened using a dot (`.`) as a separator. This way you don't have to repeat yourself so much.
 Data provided in other formats is not flattened.
-
 If you want to use a file format that is not supported by django_translate, read this:
 https://python-translate.readthedocs.org/en/latest/custom_formats.html
 
