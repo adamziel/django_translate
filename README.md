@@ -164,12 +164,12 @@ In order to translate messages in your views.py file, you need to use `trans` fu
 from django_translate.services import tranz
 
 def my_view(request):
-    return trans("hello_world") # returns Hello world!
+    return tranz("hello_world") # returns Hello world!
 ```
 
 `tranz` function takes a few arguments:
 ```python
-def trans(id, parameters=None, domain=None, locale=None):
+def tranz(id, parameters=None, domain=None, locale=None):
     # ...
 ```
 
