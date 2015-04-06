@@ -1,5 +1,7 @@
 # django_translate
 
+Translations for Django that requires no gettext.
+
 # Why?
 
 Translations in Django are full of thorns:
