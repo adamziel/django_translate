@@ -21,7 +21,6 @@ TRANZ_EXCLUDED_DIRS = _d('TRANZ_EXCLUDED_DIRS', lambda: [])
 TRANZ_EXCLUDED_DIRS.append(os.path.dirname(os.path.abspath(__file__)))
 
 TRANZ_LOADERS = _d('TRANZ_LOADERS', lambda: {
-    "dict": loaders.DictLoader(),
     "json": loaders.JSONFileLoader(),
     "yml": loaders.YamlFileLoader()
 })

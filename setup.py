@@ -1,15 +1,15 @@
 from setuptools import setup, find_packages
 
 setup(
-    name="django_translate",
+    name="django-translate",
     version="1.0.0",
     author="Adam Zieliński",
     author_email="adam@sf2.guru",
     packages=find_packages(),
     include_package_data=True,
-    url="http://pypi.python.org/pypi/django_translate_v100/",
+    url="https://github.com/adamziel/django_translate",
 
-    license="LICENSE",
+    license="MIT",
     description="Non-gettext translations for django.",
 
     # Dependent packages (distributions)

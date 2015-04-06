@@ -46,11 +46,13 @@ Translations in Django are full of thorns:
 ```python
 MIDDLEWARE_CLASSES = (
     # ... your other middlewares
+    
     # required:
     "django.middleware.locale.LocaleMiddleware",
 
-    # add this one __after__ the one above:
+    # add this one somewhere afterthe one above:
     "django_translate.middleware.LocaleMiddleware",
+    
     # ... your other middlewares
 )
 ```
@@ -75,7 +77,7 @@ Done!
 
 1. Run dev server and visit a view that renders this template
 
-Ta-da! It works, and you didn'teven  have to compile anything!
+Ta-da! It works, and you didn't have to compile anything!
 
 # What's next?
 
@@ -88,7 +90,7 @@ A few paragraphs of the following README are derived from Symfony2 documentation
 https://github.com/symfony/symfony-docs/  
 This README is licensed under [CC BY-SA 3.0](http://creativecommons.org/licenses/by-sa/3.0/) while the code is licensed under MIT license (in LICENSE file)
 
-# Domains
+## Domains
 
 Message files are organized into the different locales that they translate. The message files can also
 be organized further into “domains”. The default domain is messages.
@@ -104,8 +106,7 @@ and navigation. The French translation would be loaded from the following files:
     "Go to homepage": "La page d'accueil"
 ```
 
-When translating strings that are not in the default domain (messages), you must specify the domain as the third
-argument of `tranz()`:
+When translating strings that are not in the default domain (messages), you must specify the domain:
 
 ```python
 from django_translate.translations import tranz
@@ -113,9 +114,9 @@ tranz('Create new blog post') # loaded from messages.fr.yml
 tranz('Go to homepage', domain="navigation") # loaded from navigation.fr.yml
 ```
 
-# Discovery
+## Discovery
 
-Translations are automatically discovered using this simple algorithm:
+Translation files are automatically discovered using this simple algorithm:
 
 * for each app in `INSTALLED_APPS`, scan directory `APP_PATH/tranz`
 * load all supported files matching the pattern {domain}.{lang}.{format}
@@ -125,7 +126,9 @@ Note that there is no compilation step. django_translate loads exactly what's in
 
 You may also specify your own scannable paths using the `TRANZ_LOCALE_PATHS` setting in settings.py
 
-# Yaml and other data formats
+Supported formats are specified using the `TRANZ_LOADERS` setting.
+
+## Yaml and other data formats
 
 The recommended format for storing your translations is Yaml. That being said, json, po, and mo file are supported as well.
 Yaml has some perks, for example the following files are considered the same:
@@ -175,7 +178,7 @@ Note that it's simply a reference to `Translator.trans` from [python_translate](
 `locale` gives you the possibility to override current default locale (defaults to `request.LANGUAGE_CODE`)
 
 
-# Placeholders
+## Placeholders
 
 You may format your messages using placeholders:
 
@@ -194,7 +197,7 @@ For more details about formatting, check `python_translate` documentation:
 https://python-translate.readthedocs.org/en/latest/usage.html#message-placeholders
 
 
-# Pluralization
+## Pluralization
 
 When a translation has different forms due to pluralization, you can provide all the forms as a string separated by a pipe (`|`):
 
@@ -298,11 +301,13 @@ python manage.py tranzvalidate --app=your_app
 
 For more details about this command, type `python manage.py help tranzvalidate`.
 
+
 # Other notes
 
 It should be relatively easy to make this a drop-in replacement for django translations. Since `django_translate`
 already supports po/mo files, it is mostly about monkeypatching django translations to use `django_translate` as 
 a backend.
+
 
 # Settings
 
