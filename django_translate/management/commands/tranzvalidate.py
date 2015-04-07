@@ -100,8 +100,6 @@ class Command(BaseCommand):
 
         tranz_dir = options.get('tranz_dir') or os.path.join(root_path, 'tranz')
 
-        print 'Generating "{0}" translation files for "{1}"'.format(options.get('locale'), current_name)
-
         print "Loading existing messages"
         current_catalogue = MessageCatalogue(options['locale'])
         loader = services.loader
@@ -113,6 +111,9 @@ class Command(BaseCommand):
 
         print "Extracting translations"
         translations = self.extract_translations(services.extractor, root_path)
+        if len(translations) == 0:
+            print "No messages were extracted, from {0} using {1}".format(root_path, services.extractor.__class__.__name__)
+            return
 
         self.validate_translations(translations, current_catalogue)
 
@@ -131,6 +132,7 @@ class Command(BaseCommand):
 
             paths = subextractor.extract_files(root_path)
             paths = self.filter_exluded_paths(paths)
+            print "scanning paths", paths
             for path in paths:
                 try:
                     with open(path, 'r') as f:

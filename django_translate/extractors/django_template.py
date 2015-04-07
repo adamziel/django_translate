@@ -22,15 +22,12 @@ class DjangoTemplateExtractor(ExtensionBasedExtractor):
             tranz_tag=None,
             tranzchoice_tag=None):
         file_extensions = file_extensions if file_extensions is not None else (
-            "html",
-            "txt")
+            "*.html",
+            "*.txt")
 
         self.tranz_tag = tranz_tag if tranz_tag is not None else 'tranz'
         self.tranzchoice_tag = tranzchoice_tag if tranzchoice_tag is not None else 'tranzchoice'
-        super(
-            DjangoTemplateExtractor,
-            self).__init__(
-            file_extensions=file_extensions)
+        super(DjangoTemplateExtractor, self).__init__(file_extensions=file_extensions)
 
     def extract_translations(self, string):
         """Extract messages from Django template string."""
@@ -46,14 +43,16 @@ class DjangoTemplateExtractor(ExtensionBasedExtractor):
                     self.tranzchoice_tag +
                     " ")
                 kwargs = {
-                    "id": self._match_to_transvar(
-                        id_re, t.contents), "number": self._match_to_transvar(
-                        number_re, t.contents), "domain": self._match_to_transvar(
-                        domain_re, t.contents), "locale": self._match_to_transvar(
-                        locale_re, t.contents), "is_transchoice": is_tranzchoice, "parameters": TransVar(
-                        [
-                            x.split("=")[0].strip() for x in properties_re.findall(
-                                t.contents) if x], TransVar.LITERAL), "lineno": t.lineno, }
+                    "id": self._match_to_transvar(id_re, t.contents),
+                    "number": self._match_to_transvar(number_re, t.contents),
+                    "domain": self._match_to_transvar(domain_re, t.contents),
+                    "locale": self._match_to_transvar(locale_re, t.contents),
+                    "is_transchoice": is_tranzchoice, "parameters": TransVar(
+                        [x.split("=")[0].strip() for x in properties_re.findall(t.contents) if x],
+                        TransVar.LITERAL
+                    ),
+                    "lineno": t.lineno,
+                }
 
                 trans.append(Translation(**kwargs))
         return trans
