@@ -175,7 +175,7 @@ class Command(BaseCommand):
                     formatter.format(current_catalogue.get(t.id.value, domain))
 
                     if len(formatter.used) and not t.parameters:
-                        warnings.append(["No format variables passed, expected: {0}".format(", ".join(formatter.used)), t])
+                        warnings.append(["No format parameters passed, expected: {0}".format(", ".join(formatter.used)), t])
 
                     if len(formatter.used) and t.parameters and t.parameters.is_literal:
                         parameters = set(t.parameters.value)
@@ -194,7 +194,7 @@ class Command(BaseCommand):
                 warnings.append(["Translation of non-literal value", t])
 
             if t.parameters and not t.parameters.is_literal:
-                warnings.append(["Variables passed via reference", t])
+                warnings.append(["Parameters passed via reference", t])
         self.flush_warnings(file, warnings)
 
         if self.flushed == 0:
