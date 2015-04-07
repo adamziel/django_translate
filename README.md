@@ -261,7 +261,7 @@ posts_count_name: "{name} has one post|{name} has {count} posts"
 {% tranzchoice "posts_count" number 10 %}
 
 <!-- Pluralization + everything else -->
-{% tranzchoice "posts_count" number 10 name="adam" from "messages" into "en" %}
+{% tranzchoice "posts_count_name" number 10 name="adam" from "messages" into "en" %}
 ```
 
 
