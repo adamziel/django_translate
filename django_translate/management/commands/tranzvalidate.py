@@ -132,7 +132,6 @@ class Command(BaseCommand):
 
             paths = subextractor.extract_files(root_path)
             paths = self.filter_exluded_paths(paths)
-            print "scanning paths", paths
             for path in paths:
                 try:
                     with open(path, 'r') as f:
