@@ -168,20 +168,21 @@ class Command(BaseCommand):
             if t.id.is_literal:
                 domain = t.domain.value if t.domain and t.domain.is_literal else "messages"
 
+                    
                 if not current_catalogue.has(t.id.value, domain):
                     warnings.append(['No such translation "{0}" in domain {1}'.format(t.id.value, domain), t])
                 else:
                     formatter = Formatter()
                     formatter.format(current_catalogue.get(t.id.value, domain))
 
+                    if t.is_transchoice and t.number is None:
+                        warnings.append(["No 'number' passed to tranzchoice", t])
+                    
                     if len(formatter.used) and not t.parameters:
                         warnings.append(["No format parameters passed, expected: {0}".format(", ".join(formatter.used)), t])
 
                     if len(formatter.used) and t.parameters and t.parameters.is_literal:
                         parameters = set(t.parameters.value)
-                        if t.is_transchoice and t.number is not None:
-                            parameters.add("count")
-
                         if formatter.used != parameters:
                             warnings.append(["Expected/received parameters mismatch, (expected: {0}), (received: {1})".format(
                                 ", ".join(formatter.used), ", ".join(parameters)
