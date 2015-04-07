@@ -82,6 +82,7 @@ class Command(BaseCommand):
 
         self.excluded_paths = [os.path.abspath(path) for path in options['excluded_paths']]
         self.excluded_paths += [os.path.abspath(django_translate.__path__[0])]
+        self.excluded_paths += settings.TRANZ_EXCLUDED_DIRS
         self.locale = options['locale']
         self.verbosity = options['verbosity']
 
