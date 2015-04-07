@@ -212,7 +212,7 @@ To translate pluralized messages, use the `tranzchoice` function:
 ```python
 # views.py
 from django_translate.translations import tranzchoice
-tranzchoice('There is one apple|There are {count} apples', 10)
+tranzchoice('posts_count', 10)
 ```
 
 The second argument (10 in this example) is the number of objects being described and is used to determine which translation
