@@ -1,6 +1,6 @@
 django_translate
 
-Translations for Django that requires no gettext.
+Translate your Django apps without gettext.
 
 # Why?
 
