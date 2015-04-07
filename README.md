@@ -157,7 +157,7 @@ https://python-translate.readthedocs.org/
 
 ## Translating views:
 
-In order to translate messages in your views.py file, you need to use `trans` function provided by this app:
+In order to translate messages in your views.py file, you need to use `tranz` function provided by this app:
 
 ```python
 from django_translate.services import tranz
