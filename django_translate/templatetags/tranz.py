@@ -70,18 +70,11 @@ register.tag("tranzchoice", partial(tranz, is_transchoice=True))
 
 class TranzNode(Node):
 
-    def __init__(
-            self,
-            id,
-            parameters,
-            domain,
-            locale,
-            number=None,
-            is_transchoice=False):
+    def __init__(self, id, parameters, domain, locale, number=None, is_transchoice=False):
         self.id = template.Variable(id)
         self.parameters = {
-            k: template.Variable(v) for k,
-            v in parameters.items()}
+            k: template.Variable(v) for k, v in parameters.items()
+        }
         self.domain = domain
         self.locale = locale
         self.is_transchoice = is_transchoice
@@ -94,27 +87,23 @@ class TranzNode(Node):
             prefix += "_"
         id = prefix + self.id.resolve(context)
         parameters = {
-            k: v.resolve(context) for k,
-            v in self.parameters.items()}
-        domain = template.Variable(
-            self.domain).resolve(context) if self.domain is not None else context.get(
-            'tranz_domain',
-            None)
-        locale = template.Variable(
-            self.locale).resolve(context) if self.locale is not None else context.get(
-            'tranz_locale',
-            None)
-        number = template.Variable(self.number).resolve(
-            context) if self.number is not None else None
+            k: v.resolve(context) for k,v in self.parameters.items()
+        }
+
+        domain = template.Variable(self.domain).resolve(context) if self.domain is not None
+                        else context.get('tranz_domain', None)
+        locale = template.Variable(self.locale).resolve(context) if self.locale is not None
+                        else context.get('tranz_locale', None)
+        number = template.Variable(self.number).resolve(context) if self.number is not None else None
 
         if locale is None:
             # Try to use LocaleMiddleware if it's on
-            if isinstance(
-                    context,
-                    template.RequestContext) and hasattr(
-                    context.request,
-                    'LANGUAGE_CODE'):
+            
+            is_request_context = isinstance(context, template.RequestContext)
+            has_lang_code = hasattr(context.request, 'LANGUAGE_CODE')
+            if is_request_context and has_lang_code:
                 locale = context.request.LANGUAGE_CODE
+                
         if locale is None:
             locale = settings.TRANZ_DEFAULT_LANGUAGE
 
@@ -124,7 +113,8 @@ class TranzNode(Node):
                 number,
                 parameters,
                 domain,
-                locale)
+                locale
+            )
         else:
             return translator.trans(id, parameters, domain, locale)
 
@@ -141,7 +131,8 @@ def tranz_context(parser, token):
         if "=" in token:
             if token[0:token.index('=')] not in ("domain", "prefix", "locale"):
                 raise TemplateSyntaxError(
-                    "Unexpected token {0} in tag {{tag_name}}".format(token))
+                    "Unexpected token {0} in tag {{tag_name}}".format(token)
+                )
 
             k, v = token[0:token.index('=')], token[token.index('=') + 1:]
             parameters[k] = v
@@ -150,10 +141,10 @@ def tranz_context(parser, token):
                 "Unexpected token {0} in tag {{tag_name}}".format(token))
 
     return TranzContextNode(
-        parameters.get(
-            'prefix', None), parameters.get(
-            'domain', None), parameters.get(
-                'locale', None))
+        parameters.get('prefix', None),
+        parameters.get('domain', None),
+        parameters.get('locale', None)
+    )
 
 
 class TranzContextNode(Node):
@@ -166,14 +157,11 @@ class TranzContextNode(Node):
 
     def render(self, context):
         if self.prefix is not None:
-            context['tranz_prefix'] = template.Variable(
-                self.prefix).resolve(context)
+            context['tranz_prefix'] = template.Variable(self.prefix).resolve(context)
 
         if self.domain is not None:
-            context['tranz_domain'] = template.Variable(
-                self.domain).resolve(context)
+            context['tranz_domain'] = template.Variable(self.domain).resolve(context)
 
         if self.locale is not None:
-            context['tranz_locale'] = template.Variable(
-                self.locale).resolve(context)
+            context['tranz_locale'] = template.Variable(self.locale).resolve(context)
         return ""
