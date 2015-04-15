@@ -7,6 +7,7 @@ from functools import partial
 from django import template
 from django.core.urlresolvers import reverse as _reverse
 from django.template import Library, Node, TemplateSyntaxError
+from django.template.base import VariableDoesNotExist
 from django.template.loader import render_to_string
 from django_translate.services import translator
 from django_translate import settings
@@ -86,9 +87,16 @@ class TranzNode(Node):
         if prefix:
             prefix += "_"
         id = prefix + self.id.resolve(context)
-        parameters = {
-            k: v.resolve(context) for k,v in self.parameters.items()
-        }
+
+        parameters = {}
+        for k, v in self.parameters.items():
+            try:
+                parameters[k] = v.resolve(context)
+            except VariableDoesNotExist, e:
+                msg = 'Variable {0} not found in {{% tranz "{2}" %}} in template {1}.'.format(
+                    k, context.template.name, id[:20]
+                )
+                raise template.TemplateSyntaxError(msg)
 
         domain = template.Variable(self.domain).resolve(context) if self.domain is not None \
                         else context.get('tranz_domain', None)
@@ -98,12 +106,12 @@ class TranzNode(Node):
 
         if locale is None:
             # Try to use LocaleMiddleware if it's on
-            
+
             is_request_context = isinstance(context, template.RequestContext)
             has_lang_code = hasattr(context.request, 'LANGUAGE_CODE')
             if is_request_context and has_lang_code:
                 locale = context.request.LANGUAGE_CODE
-                
+
         if locale is None:
             locale = settings.TRANZ_DEFAULT_LANGUAGE
 
