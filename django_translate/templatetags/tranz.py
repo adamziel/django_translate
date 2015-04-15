@@ -90,9 +90,9 @@ class TranzNode(Node):
             k: v.resolve(context) for k,v in self.parameters.items()
         }
 
-        domain = template.Variable(self.domain).resolve(context) if self.domain is not None
+        domain = template.Variable(self.domain).resolve(context) if self.domain is not None \
                         else context.get('tranz_domain', None)
-        locale = template.Variable(self.locale).resolve(context) if self.locale is not None
+        locale = template.Variable(self.locale).resolve(context) if self.locale is not None \
                         else context.get('tranz_locale', None)
         number = template.Variable(self.number).resolve(context) if self.number is not None else None
 
