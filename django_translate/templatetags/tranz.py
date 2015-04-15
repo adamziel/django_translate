@@ -93,10 +93,7 @@ class TranzNode(Node):
             try:
                 parameters[k] = v.resolve(context)
             except VariableDoesNotExist, e:
-                msg = 'Variable {0} not found in {{% tranz "{2}" %}} in template {1}.'.format(
-                    k, context.template.name, id[:20]
-                )
-                raise template.TemplateSyntaxError(msg)
+                parameters[k] = ""
 
         domain = template.Variable(self.domain).resolve(context) if self.domain is not None \
                         else context.get('tranz_domain', None)
