@@ -105,8 +105,7 @@ class TranzNode(Node):
             # Try to use LocaleMiddleware if it's on
 
             is_request_context = isinstance(context, template.RequestContext)
-            has_lang_code = hasattr(context.request, 'LANGUAGE_CODE')
-            if is_request_context and has_lang_code:
+            if is_request_context and hasattr(context.request, 'LANGUAGE_CODE'):
                 locale = context.request.LANGUAGE_CODE
 
         if locale is None:
