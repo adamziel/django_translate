@@ -36,7 +36,7 @@ def discover_resources():
     """
     locale_discovery_paths = settings.TRANZ_LOCALE_PATHS
     if settings.TRANZ_SEARCH_LOCALE_IN_APPS:
-        locale_discovery_paths += [os.path.join(app.path, '/', settings.TRANZ_DIR_NAME ) for app in apps.app_configs.values()]
+        locale_discovery_paths += [os.path.join(app.path, settings.TRANZ_DIR_NAME ) for app in apps.app_configs.values()]
 
     resources = []
     for path in locale_discovery_paths:
