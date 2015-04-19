@@ -39,6 +39,10 @@ Translations in Django are full of thorns:
   ```
 * Customize easily
 
+# Examples:
+
+1. [basic django integration](https://github.com/adamziel/django_translate/examples/example_basic)
+
 # Installation
 
 1. Install the package: `pip install django_translate`

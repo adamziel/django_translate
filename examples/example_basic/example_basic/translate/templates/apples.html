@@ -1,0 +1,10 @@
+{% extends "layout.html" %}
+{% load tranz %}
+
+{% block content %}
+    <h1>{% tranz "apples.header" %}</h1>
+    
+    <p>{% tranz "apples.want_some" fruits="apples" %}</p>
+    <p>{% tranzchoice "apples.praise_n" number 1 %}</p>
+    <p>{% tranzchoice "apples.praise_n" number 3 %}</p>
+{% endblock %}

@@ -1,0 +1,3 @@
+
+msgid "pofile_message"
+msgstr "Vous pouvez également utiliser des fichiers PO!"

@@ -1,0 +1,8 @@
+
+hello: "Hello World"
+
+apples:
+    header: "Apples are great"
+    want_some: "Would you like some {fruits}?"
+    praise_n: "I've had one apple and it was great|I've had {count} apples and it was great"
+    
