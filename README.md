@@ -41,7 +41,7 @@ Translations in Django are full of thorns:
 
 # Examples:
 
-1. [basic django integration](https://github.com/adamziel/django_translate/examples/example_basic)
+1. [basic django integration](https://github.com/adamziel/django_translate/tree/master/examples/example_basic)
 
 # Installation
 
