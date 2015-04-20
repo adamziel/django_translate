@@ -325,6 +325,11 @@ Django Translate may serve as a drop-in replacement for django translations, how
 Also monkeypatching django translations it is not tested very well, you may run into issues. You have been warned...
 
 
+# Contributing
+
+See [CONTRIBUTING](https://github.com/adamziel/django_translate/tree/master/CONTRIBUTING)
+
+
 # Settings
 
 The following settings are available:
