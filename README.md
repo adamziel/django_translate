@@ -43,7 +43,7 @@ Translations in Django are full of thorns:
 1. [drop in replacement for django translations*](https://github.com/adamziel/django_translate/tree/master/examples/example_dropin)
 
 
-* See [Other Notes](https://github.com/adamziel/django_translate#Other_Notes), this functionallity is experimental and may not always work.
+* See [Other Notes](https://github.com/adamziel/django_translate#other-notes), this functionallity is experimental and may not always work.
 
 
 # Installation
