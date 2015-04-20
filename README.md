@@ -5,8 +5,8 @@
 Translations in Django are full of thorns:
 
 * You may only use `.po` files
-* You have to compile translations after each change (`./manage.py makemessages`)
-* Ah and then did you ever have to restart your dev server after running `makemessages`?
+* You have to compile translations after each change (`./manage.py compilemessages`)
+* Ah and then did you ever have to restart your dev server after running `compilemessages`?
 * No easy way to debug (does "why translations are not appearing" sounds familiar?)
 * If you use plural forms, there is a lot of redundant code to write:
 
