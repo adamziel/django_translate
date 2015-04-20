@@ -98,10 +98,10 @@ def monkeypatch_django():
     from django.utils.translation import trans_real
     
     def get_locale():
-        if trans_real._active and trans_real._active.value:
+        if trans_real._active and hasattr(trans_real._active, "value"):
             return trans_real._active.value.language()
         
-        if trans_real._default:
+        if trans_real._default and hasattr(trans_real._default, "_DjangoTranslation__locale"):
             return trans_real._default._DjangoTranslation__locale
         
         return settings.TRANZ_DEFAULT_LANGUAGE
