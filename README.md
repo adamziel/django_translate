@@ -189,7 +189,7 @@ def tranz(id, parameters=None, domain=None, locale=None):
 ```
 
 Note that it's simply a reference to `Translator.trans` from [python_translate](https://github.com/adamziel/python_translate)
-* `id` is the message ID - in this case it's `"hello_world!"`  
+* `id` is the message ID - in this case it's `"hello_world"`  
 * `parameters` is used for formatting the message  
 * `domain` is the message's domain, it defaults to `messages` (note how we stored translations in messages.en.yml)  
 * `locale` gives you the possibility to override current default locale (defaults to `request.LANGUAGE_CODE`)
