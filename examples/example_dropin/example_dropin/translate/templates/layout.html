@@ -1,0 +1,15 @@
+{% load tranz %}
+
+<b>Choose language:</b>
+{% include "langchooser.html" %}
+
+<br/>
+<b>Choose example:</b>
+<a href="{% url "hello" %}">Hello</a>
+<a href="{% url "apples" %}">Apples</a>
+<a href="{% url "pythonic_apples" %}">Apples (python)</a>
+<br/>
+
+<hr/>
+
+{% block content %}{% endblock %}

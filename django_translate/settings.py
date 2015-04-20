@@ -17,6 +17,8 @@ def _d(param, default_value):
         return getattr(settings, param)
     else:
         return default_value()
+    
+TRANZ_LANGUAGES = _d('TRANZ_LANGUAGES', lambda: _d('LANGUAGES', []))
 
 TRANZ_EXCLUDED_DIRS = _d('TRANZ_EXCLUDED_DIRS', lambda: [])
 TRANZ_EXCLUDED_DIRS.append(os.path.dirname(os.path.abspath(__file__)))
@@ -44,6 +46,8 @@ TRANZ_EXTRACTOR_CLASS = _d('TRANZ_EXTRACTOR_CLASS',
 TRANZ_TRANSLATOR_CLASS = _d('TRANZ_TRANSLATOR_CLASS',
                              lambda: translations.Translator)
 
+TRANZ_REPLACE_DJANGO_TRANSLATIONS = _d('TRANZ_REPLACE_DJANGO_TRANSLATIONS', lambda: False)
+
 TRANZ_SEARCH_LOCALE_IN_APPS = _d('TRANZ_SEARCH_LOCALE_IN_APPS', lambda: True)
 TRANZ_DIR_NAME = _d('TRANZ_DIR_NAME', lambda: 'tranz')
 
@@ -53,4 +57,17 @@ if not isinstance(TRANZ_LOCALE_PATHS, (tuple, list)):
     raise ValueError("TRANZ_LOCALE_PATHS must be a tuple or a list")
 
 TRANZ_DEFAULT_LANGUAGE = _d('TRANZ_DEFAULT_LANGUAGE', lambda: "en")
+
+if TRANZ_REPLACE_DJANGO_TRANSLATIONS:
+    TRANZ_LOCALE_PATHS = list(TRANZ_LOCALE_PATHS) + list(_d('LOCALE_PATHS', lambda: []))
+    
+    # Ugly hack to make sure Django-provided translations are loaded too
+    import django
+    TRANZ_LOCALE_PATHS += [os.path.join(os.path.dirname(django.__file__), 'conf', 'locale')]
+    
+    if "mo" not in TRANZ_LOADERS:
+        TRANZ_LOADERS["mo"] = loaders.DummyLoader() # We want to ignore .mo files
+        
+    if "po" not in TRANZ_LOADERS:
+        TRANZ_LOADERS["po"] = loaders.PoFileLoader()
 

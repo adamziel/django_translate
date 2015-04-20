@@ -50,9 +50,6 @@ def tranz(parser, token, is_transchoice=False):
             else:
                 raise TemplateSyntaxError(
                     "Unexpected token {0} in tag tranz".format(token))
-    if isinstance(number, str):
-        import ipdb
-        ipdb.set_trace()
     if is_transchoice and number is None:
         raise TemplateSyntaxError(
             "number parameter expected in tag {tag_name}")
@@ -110,7 +107,7 @@ class TranzNode(Node):
 
         if locale is None:
             locale = settings.TRANZ_DEFAULT_LANGUAGE
-
+            
         if self.is_transchoice:
             return translator.transchoice(
                 id,

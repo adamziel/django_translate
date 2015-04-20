@@ -1,0 +1,7 @@
+
+# Drop-in replacement for django translations
+
+Run it with `python manage.py runserver` as any other devserver, and check the underlying code.
+
+
+Unfortunately there is no support for contextual markers at the moment.

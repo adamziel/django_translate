@@ -1,0 +1,22 @@
+{% extends "layout.html" %}
+{% load i18n tranz %}
+
+{% block content %}
+    {# This demonstrates translating by message key #}
+    <h1>{% trans "apples.header" %}</h1>
+    
+    <p>{% blocktrans with fruits="apples" %}apples.want_some_{{ fruits }}{% endblocktrans %}</p>
+    
+    {# Of course everything still works if you use actual message as your key #}
+    <p>
+        {% blocktrans count counter=1 %}I've had one apple and it was great{% plural %}I've had {{ counter }} apples and it was great{% endblocktrans %}
+    </p>
+    
+    <p>
+        {% blocktrans count counter=3 %}I've had one apple and it was great{% plural %}I've had {{ counter }} apples and it was great{% endblocktrans %}
+    </p>
+    
+    <p>
+        {% tranz "surprise" %}
+    </p>
+{% endblock %}

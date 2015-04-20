@@ -1,6 +1,4 @@
-django_translate
-
-Translate your Django apps without gettext.
+# Translate your django apps without gettext
 
 # Why?
 
@@ -42,6 +40,11 @@ Translations in Django are full of thorns:
 # Examples:
 
 1. [basic django integration](https://github.com/adamziel/django_translate/tree/master/examples/example_basic)
+1. [drop in replacement for django translations*](https://github.com/adamziel/django_translate/tree/master/examples/example_dropin)
+
+
+* See [Other Notes](https://github.com/adamziel/python_translate#Other_Notes), this functionallity is experimental and may not always work.
+
 
 # Installation
 
@@ -64,6 +67,15 @@ MIDDLEWARE_CLASSES = (
 ```
 
 Done!
+
+
+If you want to make django use this application as a backend for all it's translations
+(including built-in `{% trans %}` and `{% blocktrans %}` tags), you have to:
+
+1. Make sure that `django_translate` is a **first** app in `INSTALLED_APPS`
+1. Set `TRANZ_REPLACE_DJANGO_TRANSLATIONS` to True in settings.py
+1. Cross your fingers, this functionallity is experimental and may not always work.
+
 
 # Quick start
 
@@ -309,14 +321,21 @@ For more details about this command, type `python manage.py help tranzvalidate`.
 
 # Other notes
 
-It should be relatively easy to make this a drop-in replacement for django translations. Since `django_translate`
-already supports po/mo files, it is mostly about monkeypatching django translations to use `django_translate` as 
-a backend.
+Django Translate may serve as a drop-in replacement for django translations, however at the moment it does not support contextual markers (`msgctxt`).  
+Also monkeypatching django translations it is not tested very well, you may run into issues. You have been warned...
 
 
 # Settings
 
 The following settings are available:
+
+## TRANZ_REPLACE_DJANGO_TRANSLATIONS
+
+If set to True, django_translate will monkeypatch django translations to use `Translator` instance
+as a backend for translations. It will still load all your *.po translations, and even those provided
+by django. In addition to them, you will be able to use `tranz` templatetag and all other perks.
+
+**Default:** `False`
 
 
 ## TRANZ_TRANSLATOR_CLASS

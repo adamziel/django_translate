@@ -1,0 +1,29 @@
+
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-04-19 19:39+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+msgid "hello"
+msgstr "Bonjour le monde"
+
+msgid "apples.header"
+msgstr "Les pommes sont une grande"
+
+msgid "apples.want_some_%(fruits)s"
+msgstr "Voulez-vous des %(fruits)s?"
+
+msgid "I've had one apple and it was great"
+msgid_plural "I've had %(counter)s apples and it was great"
+msgstr[0] "Je ai eu une pomme et ce était super"
+msgstr[1] "Je ai eu %(counter)s pommes et ce était super"
+    
