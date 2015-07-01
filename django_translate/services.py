@@ -78,8 +78,8 @@ for format, path, locale, domain in discover_resources():
     translator.add_resource(format, path, locale, domain)
 
 _ = translator.trans
-trans = translator.trans
-transchoice = translator.transchoice
+trans = tranz = translator.trans
+transchoice = tranz = translator.transchoice
 
 loader = settings.TRANZ_LOADER_CLASS()
 for format, subloader in settings.TRANZ_LOADERS.items():
