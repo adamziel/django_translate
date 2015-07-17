@@ -36,7 +36,7 @@ def discover_resources():
     """
     locale_discovery_paths = list(settings.TRANZ_LOCALE_PATHS)
     if settings.TRANZ_SEARCH_LOCALE_IN_APPS:
-        locale_discovery_paths += [os.path.join(app.path, settings.TRANZ_DIR_NAME) for app in apps.app_configs.values()]
+        locale_discovery_paths += [os.path.join(app.path, settings.TRANZ_DIR_NAME) for app in list(apps.app_configs.values())]
         
     APP_LANGUAGES = [l[0] for l in settings.TRANZ_LANGUAGES]
 
@@ -71,7 +71,7 @@ def discover_resources():
 
 
 translator = settings.TRANZ_TRANSLATOR_CLASS(settings.TRANZ_DEFAULT_LANGUAGE)
-for format, loader in settings.TRANZ_LOADERS.items():
+for format, loader in list(settings.TRANZ_LOADERS.items()):
     translator.add_loader(format, loader)
 
 for format, path, locale, domain in discover_resources():
@@ -82,15 +82,15 @@ trans = tranz = translator.trans
 transchoice = tranz = translator.transchoice
 
 loader = settings.TRANZ_LOADER_CLASS()
-for format, subloader in settings.TRANZ_LOADERS.items():
+for format, subloader in list(settings.TRANZ_LOADERS.items()):
     loader.add_loader(format, subloader)
 
 writer = settings.TRANZ_WRITER_CLASS()
-for format, subdumper in settings.TRANZ_DUMPERS.items():
+for format, subdumper in list(settings.TRANZ_DUMPERS.items()):
     writer.add_dumper(format, subdumper)
 
 extractor = settings.TRANZ_EXTRACTOR_CLASS()
-for format, subextractor in settings.TRANZ_EXTRACTORS.items():
+for format, subextractor in list(settings.TRANZ_EXTRACTORS.items()):
     extractor.add_extractor(format, subextractor)
 
 def monkeypatch_django():

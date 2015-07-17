@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals
+
 
 import os
 import os.path
@@ -89,16 +89,16 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         if options.get('force') != True and options.get('dump_messages') != True:
-            print bcolors.WARNING + 'You must choose at least one of --force or --dump-messages' + bcolors.ENDC
+            print((bcolors.WARNING + 'You must choose at least one of --force or --dump-messages' + bcolors.ENDC))
             return
 
         if not (bool(options.get('app')) ^ bool(options.get('path'))):
-            print bcolors.WARNING + 'You must choose only one of --app or --path' + bcolors.ENDC
+            print((bcolors.WARNING + 'You must choose only one of --app or --path' + bcolors.ENDC))
             return
 
         if not options.get('output_dir') and (not options.get('app') or not settings.TRANZ_SEARCH_LOCALE_IN_APPS):
-            print bcolors.WARNING + 'You must provide an --output-dir when in --path mode, or when TRANZ_SEARCH_LOCALE_IN_APPS ' \
-                                    'settings variable is False.' + bcolors.ENDC
+            print((bcolors.WARNING + 'You must provide an --output-dir when in --path mode, or when TRANZ_SEARCH_LOCALE_IN_APPS ' \
+                                    'settings variable is False.' + bcolors.ENDC))
             return
 
         self.excluded_paths = [os.path.abspath(path) for path in options['excluded_paths']]
@@ -107,7 +107,7 @@ class Command(BaseCommand):
 
         # Find directories to scan
         if options.get('app'):
-            for app in apps.app_configs.values():
+            for app in list(apps.app_configs.values()):
                 if app.name == options.get('app'):
                     current_name = app.name
                     root_path = app.path
@@ -121,50 +121,50 @@ class Command(BaseCommand):
         output_dir = options.get('output_dir') or os.path.join(root_path, 'tranz')
         writer = services.writer
 
-        print 'Generating "{0}" translation files for "{1}"'.format(options.get('locale'), current_name)
+        print(('Generating "{0}" translation files for "{1}"'.format(options.get('locale'), current_name)))
 
-        print "Loading existing messages"
+        print("Loading existing messages")
         current_catalogue = MessageCatalogue(options['locale'])
         loader = services.loader
         loader.load_messages(output_dir, current_catalogue)
         if len(current_catalogue.messages) == 0:
-            print "No messages were loaded, make sure there actually are " \
-                  "translation file in format {{catalog}}.{{locale}}.{{format}} in {0}".format(output_dir)
+            print(("No messages were loaded, make sure there actually are " \
+                  "translation file in format {{catalog}}.{{locale}}.{{format}} in {0}".format(output_dir)))
             return
 
-        print "Extracting messages"
+        print("Extracting messages")
         extracted_catalogue = MessageCatalogue(options['locale'])
         extractor = services.extractor
         extractor.set_prefix(options['prefix'])
         self.extract_messages(extractor, root_path, extracted_catalogue)
 
-        print "Processing catalogues"
+        print("Processing catalogues")
         operation_class = operations.DiffOperation if options['clean'] else operations.MergeOperation
         operation = operation_class(current_catalogue, extracted_catalogue)
 
         if not len(operation.get_domains()):
-            print "No translations found"
+            print("No translations found")
             return
 
         if options["dump_messages"]:
             for domain in operation.get_domains():
-                print "Displaying messages for domain {0}".format(domain)
-                new_keys = operation.get_new_messages(domain).keys()
-                all_keys = operation.get_messages(domain).keys()
+                print(("Displaying messages for domain {0}".format(domain)))
+                new_keys = list(operation.get_new_messages(domain).keys())
+                all_keys = list(operation.get_messages(domain).keys())
                 for id in set(all_keys).difference(new_keys):
-                    print id
+                    print(id)
 
                 for id in new_keys:
-                    print bcolors.OKGREEN + id + bcolors.ENDC
+                    print((bcolors.OKGREEN + id + bcolors.ENDC))
 
-                for id in operation.get_obsolete_messages(domain).keys():
-                    print bcolors.FAIL + id + bcolors.ENDC
+                for id in list(operation.get_obsolete_messages(domain).keys()):
+                    print((bcolors.FAIL + id + bcolors.ENDC))
 
         if options["no_backup"]:
             writer.disable_backup()
 
         if options["force"]:
-            print "Writing files to {0}".format(output_dir)
+            print(("Writing files to {0}".format(output_dir)))
             writer.write_translations(operation.get_result(), options['format'], {
                 "path": output_dir,
                 "default_locale": options['locale']
@@ -172,7 +172,7 @@ class Command(BaseCommand):
 
     def extract_messages(self, extractor, root_path, extracted_catalogue):
         if isinstance(extractor, extractors.ChainExtractor):
-            subextractors = extractor._extractors.values()
+            subextractors = list(extractor._extractors.values())
         else:
             subextractors = [extractor]
 
@@ -186,12 +186,12 @@ class Command(BaseCommand):
             for path in paths:
                 try:
                     subextractor.extract([path], extracted_catalogue)
-                except Exception, e:
+                except Exception as e:
                     exc_type, exc_value, exc_traceback = sys.exc_info()
                     msg = 'There was an exception in extractor {0} when processing ' \
                           'resource "{1}"'.format(type(subextractor).__name__, path)
                     msg = msg + "\nOriginal message: {0} {1}".format(exc_type.__name__, exc_value)
-                    raise ValueError(msg), None, exc_traceback
+                    raise ValueError(msg).with_traceback(exc_traceback)
 
     def filter_exluded_paths(self, paths):
         valid = []

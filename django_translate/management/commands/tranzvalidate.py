@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals
+
 
 import os
 import os.path
@@ -72,12 +72,12 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         if not (bool(options.get('app')) ^ bool(options.get('path'))):
-            print bcolors.WARNING + 'You must choose only one of --app or --path' + bcolors.ENDC
+            print((bcolors.WARNING + 'You must choose only one of --app or --path' + bcolors.ENDC))
             return
 
         if not options.get('tranz_dir') and (not options.get('app') or not settings.TRANZ_SEARCH_LOCALE_IN_APPS):
-            print bcolors.WARNING + 'You must provide an --tranz-dir when in --path mode, or when TRANZ_SEARCH_LOCALE_IN_APPS ' \
-                                    'settings variable is False.' + bcolors.ENDC
+            print((bcolors.WARNING + 'You must provide an --tranz-dir when in --path mode, or when TRANZ_SEARCH_LOCALE_IN_APPS ' \
+                                    'settings variable is False.' + bcolors.ENDC))
             return
 
         self.excluded_paths = [os.path.abspath(path) for path in options['excluded_paths']]
@@ -88,7 +88,7 @@ class Command(BaseCommand):
 
         # Find directories to scan
         if options.get('app'):
-            for app in apps.app_configs.values():
+            for app in list(apps.app_configs.values()):
                 if app.name == options.get('app'):
                     current_name = app.name
                     root_path = app.path
@@ -101,26 +101,26 @@ class Command(BaseCommand):
 
         tranz_dir = options.get('tranz_dir') or os.path.join(root_path, 'tranz')
 
-        print "Loading existing messages"
+        print("Loading existing messages")
         current_catalogue = MessageCatalogue(options['locale'])
         loader = services.loader
         loader.load_messages(tranz_dir, current_catalogue)
         if len(current_catalogue.messages) == 0:
-            print "No messages were loaded, make sure there actually are " \
-                  "translation file in format {{catalog}}.{{locale}}.{{format}} in {0}".format(tranz_dir)
+            print(("No messages were loaded, make sure there actually are " \
+                  "translation file in format {{catalog}}.{{locale}}.{{format}} in {0}".format(tranz_dir)))
             return
 
-        print "Extracting translations"
+        print("Extracting translations")
         translations = self.extract_translations(services.extractor, root_path)
         if len(translations) == 0:
-            print "No messages were extracted, from {0} using {1}".format(root_path, services.extractor.__class__.__name__)
+            print(("No messages were extracted, from {0} using {1}".format(root_path, services.extractor.__class__.__name__)))
             return
 
         self.validate_translations(translations, current_catalogue)
 
     def extract_translations(self, extractor, root_path):
         if isinstance(extractor, extractors.ChainExtractor):
-            subextractors = extractor._extractors.values()
+            subextractors = list(extractor._extractors.values())
         else:
             subextractors = [extractor]
 
@@ -128,7 +128,7 @@ class Command(BaseCommand):
 
         for subextractor in subextractors:
             if not isinstance(subextractor, extractors.BaseExtractor):
-                print "Skipping extractor ", subextractor.__type__.__name__
+                print(("Skipping extractor ", subextractor.__type__.__name__))
                 continue
 
             paths = subextractor.extract_files(root_path)
@@ -145,7 +145,7 @@ class Command(BaseCommand):
                     msg = 'There was an exception in extractor {0} when processing ' \
                           'resource "{1}"'.format(type(subextractor).__name__, path)
                     msg = msg + "\nOriginal message: {0} {1}".format(exc_type.__name__, exc_value)
-                    raise ValueError(msg), None, exc_traceback
+                    raise ValueError(msg).with_traceback(exc_traceback)
         return translations
 
     def validate_translations(self, translations, current_catalogue):
@@ -198,9 +198,9 @@ class Command(BaseCommand):
         self.flush_warnings(file, warnings)
 
         if self.flushed == 0:
-            print bcolors.OKGREEN + "Scanned {0} translations and everything seems to be ok!".format(len(translations)) + bcolors.ENDC
+            print((bcolors.OKGREEN + "Scanned {0} translations and everything seems to be ok!".format(len(translations)) + bcolors.ENDC))
         else:
-            print bcolors.FAIL + "{0} problems found".format(self.flushed) + bcolors.ENDC
+            print((bcolors.FAIL + "{0} problems found".format(self.flushed) + bcolors.ENDC))
 
     def filter_exluded_paths(self, paths):
         valid = []
@@ -223,13 +223,13 @@ class Command(BaseCommand):
             try:
                 with open(file, 'r') as f:
                     lines = f.read().split("\n")
-            except Exception, e:
+            except Exception as e:
                 pass
 
-        print bcolors.WARNING + "{0} warnings in file {1}".format(len(warnings), file) + bcolors.ENDC
+        print((bcolors.WARNING + "{0} warnings in file {1}".format(len(warnings), file) + bcolors.ENDC))
         for msg, trans in warnings:
-            print bcolors.WARNING + "line {0}: {1}".format(trans.lineno or "?", msg) + bcolors.ENDC
+            print((bcolors.WARNING + "line {0}: {1}".format(trans.lineno or "?", msg) + bcolors.ENDC))
             if lines and self.verbosity > 1 and trans.lineno:
-                print "{0}: {1}".format(trans.lineno, lines[trans.lineno-1])
+                print(("{0}: {1}".format(trans.lineno, lines[trans.lineno-1])))
 
-        print ""
+        print("")

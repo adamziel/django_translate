@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from __future__ import absolute_import
+
 
 import re
 import json
@@ -71,7 +71,7 @@ class TranzNode(Node):
     def __init__(self, id, parameters, domain, locale, number=None, is_transchoice=False):
         self.id = template.Variable(id)
         self.parameters = {
-            k: template.Variable(v) for k, v in parameters.items()
+            k: template.Variable(v) for k, v in list(parameters.items())
         }
         self.domain = domain
         self.locale = locale
@@ -86,10 +86,10 @@ class TranzNode(Node):
         id = prefix + self.id.resolve(context)
 
         parameters = {}
-        for k, v in self.parameters.items():
+        for k, v in list(self.parameters.items()):
             try:
                 parameters[k] = v.resolve(context)
-            except VariableDoesNotExist, e:
+            except VariableDoesNotExist as e:
                 parameters[k] = ""
 
         domain = template.Variable(self.domain).resolve(context) if self.domain is not None \
