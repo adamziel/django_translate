@@ -379,7 +379,7 @@ besides invoking each loader referenced in `TRANZ_LOADERS`
 
 **Default:**
 ```python
-glue.TransationLoader
+python_translate.glue.TransationLoader
 ```
 
 ## TRANZ_LOADERS
