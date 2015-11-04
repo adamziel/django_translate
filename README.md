@@ -386,7 +386,7 @@ python_translate.glue.TransationLoader
 Dictionary of `Loader` instances used by TRANZ_LOADER_CLASS
 
 If you want to use `po`/`mo` files, you have to override this setting, and
-add `loaders.PoLoader`/`loaders.MoLoader` instances.
+add `python_translate.loaders.PoLoader`/`python_translate.loaders.MoLoader` instances.
 
 If you want to use a file format that is not supported by django_translate, read this:
 https://python-translate.readthedocs.org/en/latest/custom_formats.html
@@ -394,9 +394,9 @@ https://python-translate.readthedocs.org/en/latest/custom_formats.html
 **Default:**
 ```python
 {
-    "dict": loaders.DictLoader(),
-    "json": loaders.JSONFileLoader(),
-    "yml": loaders.YamlFileLoader()
+    "dict": python_translate.loaders.DictLoader(),
+    "json": python_translate.loaders.JSONFileLoader(),
+    "yml": python_translate.loaders.YamlFileLoader()
 }
 ```
 
@@ -410,8 +410,8 @@ Dumpers supported by `tranzdump` command
 **Default:**
 ```python
 {
-    "yml": dumpers.YamlFileDumper(),
-    "json": dumpers.JSONFileDumper(),
+    "yml": python_translate.dumpers.YamlFileDumper(),
+    "json": python_translate.dumpers.JSONFileDumper(),
 }
 ```
 
