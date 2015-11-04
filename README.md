@@ -309,8 +309,8 @@ For more details about this command, type `python manage.py help tranzdump`.
 
 ## Validating your translations:
 
-You may want to check if all translation strings referenced in views and templates. In bare django you need to
-manually visit visit every URL. This is unacceptable, so django_translate provides a handy command that parses
+You may want to check if all translation are strings referenced in views and templates. In bare django you need to
+manually visit every URL. This is unacceptable, so django_translate provides a handy command that parses
 your source tree and compares it to translation files:
 ```bash
 python manage.py tranzvalidate --app=your_app
