@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="django-translate",
-    version="1.0.14",
+    version="1.0.15",
     author="Adam Zieliński",
     author_email="adam@sf2.guru",
     packages=find_packages(),

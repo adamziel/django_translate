@@ -33,7 +33,7 @@ class DjangoTemplateExtractor(ExtensionBasedExtractor):
         """Extract messages from Django template string."""
 
         trans = []
-        for t in Lexer(string, None).tokenize():
+        for t in Lexer(string.decode("utf-8"), None).tokenize():
             if t.token_type == TOKEN_BLOCK:
                 if not t.contents.startswith(
                         (self.tranz_tag, self.tranzchoice_tag)):
