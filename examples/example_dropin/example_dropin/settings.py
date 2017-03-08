@@ -7,10 +7,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DEBUG = True
 
 INSTALLED_APPS = (
-    # Since this module are imported, DebugTranslator will complain about
-    # lack of translations if we don't include it in INSTALLED_APPS or
-    # TRANZ_LOCALE_PATHS. We can of course use the default translator
-    # class and not worry about it
+    # Since this modules are imported elsewhere in the code, DebugTranslator will complain about
+    # lack of translations if we don't include it in INSTALLED_APPS or TRANZ_LOCALE_PATHS.
     'django.contrib.contenttypes',
     'django.contrib.auth.models', 
     
