@@ -79,7 +79,7 @@ for format, path, locale, domain in discover_resources():
 
 _ = translator.trans
 trans = tranz = translator.trans
-transchoice = tranz = translator.transchoice
+transchoice = tranzchoice = translator.transchoice
 
 loader = settings.TRANZ_LOADER_CLASS()
 for format, subloader in list(settings.TRANZ_LOADERS.items()):
