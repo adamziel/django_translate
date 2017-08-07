@@ -1,10 +1,13 @@
 # -*- coding: utf-8 -*-
 
-from django.utils.deprecation import MiddlewareMixin
+try:
+    from django.utils.deprecation import MiddlewareMixin as BaseClass
+except ImportError, e:
+    BaseClass = object
+
 from django_translate.services import translator as django_translator
 
-
-class LocaleMiddleware(MiddlewareMixin):
+class LocaleMiddleware(BaseClass):
     """
     This is a very simple middleware that parses a request
     and decides what locale to activate in current django_translator
