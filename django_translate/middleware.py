@@ -2,7 +2,7 @@
 
 try:
     from django.utils.deprecation import MiddlewareMixin as BaseClass
-except ImportError, e:
+except ImportError:
     BaseClass = object
 
 from django_translate.services import translator as django_translator
