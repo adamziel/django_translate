@@ -59,7 +59,7 @@ MIDDLEWARE_CLASSES = (
     # required:
     "django.middleware.locale.LocaleMiddleware",
 
-    # add this one somewhere afterthe one above:
+    # add this one somewhere after the one above:
     "django_translate.middleware.LocaleMiddleware",
     
     # ... your other middlewares
@@ -127,7 +127,7 @@ and navigation. The French translation would be loaded from the following files:
 When translating strings that are not in the default domain (messages), you must specify the domain:
 
 ```python
-from django_translate.translations import tranz
+from django_translate.services import tranz
 tranz('Create new blog post') # loaded from messages.fr.yml
 tranz('Go to homepage', domain="navigation") # loaded from navigation.fr.yml
 ```
@@ -206,7 +206,7 @@ hello: "Hello {name}"
 
 ```python
 # views.py
-from django_translate.translations import tranz
+from django_translate.services import tranz
 tranz('hello', {"Name": "Adam"})
 ```
 
@@ -227,7 +227,7 @@ To translate pluralized messages, use the `tranzchoice` function:
 
 ```python
 # views.py
-from django_translate.translations import tranzchoice
+from django_translate.services import tranzchoice
 tranzchoice('posts_count', 10)
 ```
 
