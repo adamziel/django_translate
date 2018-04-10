@@ -1,5 +1,7 @@
 # Translate your django apps without gettext
 
+__Currently not compatible with Django >= 2.0__
+
 # Why?
 
 Translations in Django are full of thorns:
